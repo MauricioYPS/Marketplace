@@ -1,0 +1,103 @@
+import { useState } from "react";
+
+export default function MarketBar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState(""); // "lowest", "highest"
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const handleSort = (type) => {
+    setSortBy(type);
+    setIsMenuOpen(false);
+    // Lógica para ordenar (pasar como prop al padre)
+  };
+
+  return (
+    <div className="bg-white border-2 border-green-500 w-full h-full flex items-center justify-center gap-5 px-4 shadow-sm">
+      {/* Botón de Menú Hamburguesa */}
+      <div className="relative flex items-center justify-center">
+        <button
+          onClick={toggleMenu}
+          className="flex items-center space-x-1 p-2 rounded-lg hover:bg-gray-100"
+          aria-label="Abrir filtros"
+        >
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/8369/8369197.png" 
+            alt="Menú" 
+            className="w-5 h-5"
+          />
+          <span className="hidden sm:inline-block text-gray-700">Filtrar</span>
+        </button>
+
+        {/* Menú desplegable (Filtros) - Ahora relativo al botón */}
+        {isMenuOpen && (
+          <div className="absolute left-1/2 top-full mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200 transform -translate-x-1/2">
+            <div className="p-2">
+              <button
+                onClick={() => handleSort("lowest")}
+                className={`w-full text-left px-4 py-2 rounded-md ${
+                  sortBy === "lowest" ? "bg-amber-50 text-amber-600" : "hover:bg-gray-100"
+                }`}
+              >
+                Menor precio
+              </button>
+              <button
+                onClick={() => handleSort("highest")}
+                className={`w-full text-left px-4 py-2 rounded-md ${
+                  sortBy === "highest" ? "bg-amber-50 text-amber-600" : "hover:bg-gray-100"
+                }`}
+              >
+                Mayor precio
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Barra de Búsqueda - Más compacta */}
+      <div className="flex-1 max-w-md">
+        <div className="relative">
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/8369/8369274.png" 
+            alt="Buscar" 
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
+          />
+          <input
+            type="text"
+            placeholder="Buscar por nombre..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            >
+              <img 
+                src="https://cdn-icons-png.flaticon.com/512/5254/5254940.png" 
+                alt="Limpiar búsqueda" 
+                className="w-4 h-4"
+              />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Icono de Lista de Deseos - Centrado */}
+      <div className="flex items-center justify-center">
+        <button
+          className="p-2 rounded-lg hover:bg-gray-100"
+          aria-label="Ver lista de deseos"
+        >
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/8189/8189263.png" 
+            alt="Favoritos" 
+            className="w-7 h-7"
+          />
+        </button>
+      </div>
+    </div>
+  );
+}
