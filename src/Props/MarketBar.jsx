@@ -1,16 +1,22 @@
 import { useState } from "react";
 
-export default function MarketBar() {
+export default function MarketBar({ onSearch, onSort }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState(""); // "lowest", "highest"
+  const [sortBy, setSortBy] = useState("");
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleSort = (type) => {
     setSortBy(type);
+    onSort(type);
     setIsMenuOpen(false);
-    // Lógica para ordenar (pasar como prop al padre)
+  };
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    onSearch(value);
   };
 
   return (
@@ -30,7 +36,6 @@ export default function MarketBar() {
           <span className="hidden sm:inline-block text-gray-700">Filtrar</span>
         </button>
 
-        {/* Menú desplegable (Filtros) - Ahora relativo al botón */}
         {isMenuOpen && (
           <div className="absolute left-1/2 top-full mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200 transform -translate-x-1/2">
             <div className="p-2">
@@ -55,7 +60,7 @@ export default function MarketBar() {
         )}
       </div>
 
-      {/* Barra de Búsqueda - Más compacta */}
+      {/* Barra de Búsqueda */}
       <div className="flex-1 max-w-md">
         <div className="relative">
           <img 
@@ -67,12 +72,15 @@ export default function MarketBar() {
             type="text"
             placeholder="Buscar por nombre..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearch}
             className="w-full pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
           />
           {searchQuery && (
             <button
-              onClick={() => setSearchQuery("")}
+              onClick={() => {
+                setSearchQuery("");
+                onSearch("");
+              }}
               className="absolute right-3 top-1/2 transform -translate-y-1/2"
             >
               <img 
@@ -85,12 +93,9 @@ export default function MarketBar() {
         </div>
       </div>
 
-      {/* Icono de Lista de Deseos - Centrado */}
+      {/* Icono de Favoritos */}
       <div className="flex items-center justify-center">
-        <button
-          className="p-2 rounded-lg hover:bg-gray-100"
-          aria-label="Ver lista de deseos"
-        >
+        <button className="p-2 rounded-lg hover:bg-gray-100" aria-label="Ver lista de deseos">
           <img 
             src="https://cdn-icons-png.flaticon.com/512/8189/8189263.png" 
             alt="Favoritos" 
