@@ -9,7 +9,7 @@ export default function Marketplace() {
                     <MarketBar></MarketBar>
                 </div>
 
-                <div id="marketplaceContainer" className="border-2 border-green-600 w-full h-full">
+                <div id="marketplaceContainer" className="border-2 border-green-600 w-full h-full d-flex justify-between">
 
                     <Cards></Cards>
 
