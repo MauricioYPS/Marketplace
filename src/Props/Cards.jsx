@@ -1,6 +1,7 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function Cards({ products = [], loading, error }) {
+  const navigate = useNavigate();
   const [favorites, setFavorites] = useState({});
 
   const toggleFavorite = (id) => {
@@ -9,6 +10,9 @@ export default function Cards({ products = [], loading, error }) {
       [id]: !prev[id],
     }));
   };
+  function handleNavigate(id) {
+    navigate(`/productDetails/${id}`);
+  }
 
   if (loading) return <p className="text-center mt-10">Cargando productos...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
@@ -35,7 +39,8 @@ export default function Cards({ products = [], loading, error }) {
             )}
           </button>
 
-          <div className="w-full h-3/4 bg-gray-100 flex justify-center items-center">
+          <div className="w-full h-3/4 bg-gray-100 flex justify-center items-center"
+            onClick={() => handleNavigate(product._id)}>
             {product.photoUrl ? (
               <img src={product.photoUrl} alt={product.name} className="h-full object-contain" />
             ) : (
@@ -44,7 +49,8 @@ export default function Cards({ products = [], loading, error }) {
           </div>
 
           <div className="w-full h-1/4 p-3 flex flex-col justify-between">
-            <p className="text-lg font-semibold text-gray-900 truncate">{product.name}</p>
+            <p className="text-lg font-semibold text-gray-900 truncate"
+            onClick={() => handleNavigate(product._id)}>{product.name}</p>
             <p className="text-xl font-bold text-amber-600">${product.price?.toLocaleString()} COP</p>
           </div>
         </div>
