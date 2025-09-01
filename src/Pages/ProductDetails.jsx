@@ -32,18 +32,30 @@ export default function ProductDetails() {
   if (error) return <div className="text-center mt-10 text-red-500">Error: {error}</div>;
 
   return (
-    <div className="w-full h-screen flex flex-col p-6 gap-6">
+    <div className="w-full h-screen flex flex-col p-6 gap-6 ">
       {/* Zona superior: imagen + detalles */}
-      <div className="flex w-full h-[60%] gap-4">
-        <div className="w-[60%] h-full bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden">
+      <div className="flex w-full h-[80%] gap-4 border-2 border-red-500">
+        <div className="w-[60%] h-full bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden border-2 border-blue-500 ">
           <img
             src={product.photoUrl || "https://via.placeholder.com/150"}
             alt={product.name || "Producto desconocido"}
-            className="object-contain h-full"
+            className="object-contain h-full border-2 border-red-500"
           />
         </div>
-        <div className="w-[40%] h-full flex flex-col justify-between">
-          <div className="space-y-2">
+        <div className="w-[40%] h-full flex flex-col border-2 border-green-500 ">
+          {/* Datos del usuario */}
+          <div className="flex items-center gap-3 justify-end mt-4 border-2 border-yellow-500">
+            <span className="text-sm text-gray-700 font-medium">
+              {product.user?.name || "Usuario desconocido"}
+            </span>
+            <img
+              src={product.user?.photo || "https://cdn-icons-png.flaticon.com/512/1946/1946429.png"}
+              alt="Usuario"
+              className="w-10 h-10 rounded-full object-cover border"
+            />
+            <div className="w-[2%]"></div>
+          </div>
+          <div className="space-y-2 border-2 border-blue-500 w-[96%]">
             <p className="text-3xl font-bold text-gray-900">{product.name}</p>
             <p className="text-xl font-semibold text-amber-600">
               ${product.price.toLocaleString()} COP
@@ -53,17 +65,7 @@ export default function ProductDetails() {
             <p className="text-sm text-gray-500">Stock: {product.stock}</p>
           </div>
 
-          {/* Datos del usuario */}
-          <div className="flex items-center gap-3 mt-4">
-            <img
-              src={product.user?.photo || "https://cdn-icons-png.flaticon.com/512/1946/1946429.png"}
-              alt="Usuario"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <span className="text-sm text-gray-700 font-medium">
-              {product.user?.name || "Usuario desconocido"}
-            </span>
-          </div>
+
         </div>
       </div>
 
