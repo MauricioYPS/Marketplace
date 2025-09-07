@@ -1,6 +1,8 @@
 
 export default function Footer() {
     return (
-        <div className="bg-stone-300 w-full h-16 flex items-center justify-center">Footer</div>
-    )
+        <div class="container mx-auto py-8 px-6 text-center">
+            <p>&copy; 2024 Mercado Local Mapiripán. Todos los derechos reservados.</p>
+            <p class="text-sm text-gray-300 mt-2">Una plataforma para nuestra gente.</p>
+        </div>    )
 }
