@@ -20,7 +20,7 @@ export default function MarketBar({ onSearch, onSort }) {
   };
 
   return (
-    <div className="bg-white border-2 border-green-500 w-full h-full flex items-center justify-center gap-5 px-4 shadow-sm">
+    <div className="bg-white w-full h-full flex items-center justify-center gap-5 px-4 ">
       {/* Botón de Menú Hamburguesa */}
       <div className="relative flex items-center justify-center">
         <button
@@ -70,10 +70,10 @@ export default function MarketBar({ onSearch, onSort }) {
           />
           <input
             type="text"
-            placeholder="Buscar por nombre..."
+            placeholder={screen.width < 768 ? "uscar..." : "Buscar por nombre..."}
             value={searchQuery}
             onChange={handleSearch}
-            className="w-full pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1"
           />
           {searchQuery && (
             <button

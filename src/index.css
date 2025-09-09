@@ -102,3 +102,7 @@ body {
 .btn-accent:hover {
     background-color: #c4941c;
 }
+
+.product-card {
+    cursor: pointer;
+}
