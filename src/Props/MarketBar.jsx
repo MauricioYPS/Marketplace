@@ -21,7 +21,7 @@ export default function MarketBar({ onSearch, onSort }) {
 
   return (
     <div className="bg-white w-[75%] h-full flex items-center gap-5 px-4 rounded-lg shadow-sm  lg:w-[35%] md:w-[65%]">
-      {/* Botón de Menú Hamburguesa */}
+
       <div className="relative flex items-center justify-center">
         <button
           onClick={toggleMenu}
@@ -60,7 +60,7 @@ export default function MarketBar({ onSearch, onSort }) {
         )}
       </div>
 
-      {/* Barra de Búsqueda */}
+
       <div className="flex-1 max-w-md">
         <div className="relative">
           <img 
@@ -93,7 +93,7 @@ export default function MarketBar({ onSearch, onSort }) {
         </div>
       </div>
 
-      {/* Icono de Favoritos */}
+
       <div className="flex items-center justify-center">
         <button className="p-2 rounded-lg hover:bg-gray-100" aria-label="Ver lista de deseos">
           <img 
