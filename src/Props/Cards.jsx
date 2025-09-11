@@ -28,13 +28,12 @@ export default function Cards({ products = [], loading, error }) {
     //     <p class="text-gray-500 text-sm">por Libra</p>
     //   </div>
     // </div>
-    <div className="flex flex-wrap gap-6 justify-center mt-10 product-card border-2 border-blue-400 h-full"
-    >
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-x-2 justify-center mt-10 product-card border-2 border-blue-400 h-full w-full">
       {products.map((product) => (
         <div
           key={product._id}
-          className="bg-white w-full max-w-xs h-80 rounded-lg shadow-md overflow-hidden 
-                   hover:shadow-lg transition-shadow duration-300 cursor-pointer relative card product-card"
+          className="bg-white  h-80 rounded-lg shadow-md overflow-hidden 
+                   hover:shadow-lg transition-shadow duration-300 cursor-pointer relative product-card border-2 border-pink-400 "
         >
           <button
             onClick={() => toggleFavorite(product._id)}
