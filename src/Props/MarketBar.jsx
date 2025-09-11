@@ -20,7 +20,7 @@ export default function MarketBar({ onSearch, onSort }) {
   };
 
   return (
-    <div className="bg-white w-full h-full flex items-center justify-center gap-5 px-4 ">
+    <div className="bg-white w-[75%] h-full flex items-center justify-center gap-5 px-4 rounded-lg shadow-md">
       {/* Botón de Menú Hamburguesa */}
       <div className="relative flex items-center justify-center">
         <button
