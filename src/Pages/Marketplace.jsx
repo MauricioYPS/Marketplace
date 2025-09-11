@@ -31,9 +31,9 @@ export default function Marketplace() {
 
   return (
 
-      <section id="marketplace" class="page-section  flex flex-col min-h-screen max-h-auto  justify-center py-12 border-2 w-full border-purple-600 ">
-        <h1 class="text-4xl font-bold text-primary mb-2 md:px-12 lg:px-24">Marketplace</h1>
-        <p class="text-gray-600 mb-8 md:px-12 lg:px-24">Encuentra lo que necesitas o publica tus productos para vender.</p>
+      <section id="marketplace" class="page-section  flex flex-col min-h-screen max-h-auto  justify-center mt-12 w-full">
+        <h1 class="text-4xl font-bold text-primary mb-2 px-6 md:px-12 lg:px-24">Marketplace</h1>
+        <p class="text-gray-600 mb-8 px-6 md:px-12 lg:px-24">Encuentra lo que necesitas o publica tus productos para vender.</p>
 
 
         {/* <div class="bg-white p-4 rounded-lg shadow-md mb-8 flex flex-col md:flex-row gap-4 items-center">
@@ -59,7 +59,7 @@ export default function Marketplace() {
             </button>
           </div>
         </div> */}
-        <div id="searcherContainer" className=" rounded-lg shadow-sm  w-full justify-center items-center flex h-16">
+        <div id="searcherContainer" className=" rounded-lg  w-full justify-items-start px-6 md:px-12 lg:px-24 flex h-16">
           <MarketBar onSearch={handleSearch} onSort={handleSort} />
         </div>
 
@@ -127,9 +127,9 @@ export default function Marketplace() {
             </div>
           </div>
         </div> */}
-        <div id="marketplaceContainer" className=" w-full h-full border-2 border-green-600">
+        <section id="marketplaceContainer" className=" w-full h-full ">
           <Cards products={filteredProducts} loading={loading} error={error} />
-        </div>
+        </section>
 
       </section>
 
