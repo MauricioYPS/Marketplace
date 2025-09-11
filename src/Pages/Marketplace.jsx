@@ -59,7 +59,7 @@ export default function Marketplace() {
             </button>
           </div>
         </div> */}
-        <div id="searcherContainer" className=" rounded-lg  w-full justify-items-start px-6 md:px-12 lg:px-24 flex h-16">
+        <div id="searcherContainer" className=" rounded-lg  w-full justify-items-start px-6 md:px-12 lg:px-24 flex h-16 ">
           <MarketBar onSearch={handleSearch} onSort={handleSort} />
         </div>
 
