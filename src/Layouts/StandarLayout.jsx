@@ -5,7 +5,7 @@ export default function StandarLayout() {return (<>
 <header className="bg-[#F8F7F2] sticky top-0 z-50 shadow-sm">
 <Header></Header>
 </header>
-<main className="flex min-h-screen justify-center border-2 border-amber-200 "> 
+<main className="flex min-h-screen justify-center"> 
 <Outlet></Outlet>
 </main>
 <footer className="bg-primary text-white">
