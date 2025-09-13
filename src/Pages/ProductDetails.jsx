@@ -53,7 +53,7 @@ export default function ProductDetails() {
   const unit = product.unit ? ` / ${product.unit}` : "";
   const stock = Number.isFinite(product.stock) ? product.stock : null;
 
-  // WhatsApp (si existe teléfono del vendedor)
+
   const phone = product.user?.phone || product.user?.whatsapp;
   const waText = encodeURIComponent(`Hola, vi tu producto "${product.name}" en Mercado Local. ¿Sigue disponible?`);
   const waHref = phone ? `https://wa.me/${String(phone).replace(/\D/g, "")}?text=${waText}` : null;
@@ -62,22 +62,22 @@ export default function ProductDetails() {
     <div className="min-h-screen w-full bg-[#F8F7F2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-        {/* Volver */}
+
         <div className="mb-6">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-600 hover:text-[#2C5234] font-semibold"
+            className="flex items-center gap-2 text-gray-600 hover:text-[#2C5234] font-semibold cursor-pointer hover:underline"
           >
             <svg viewBox="0 0 24 24" className="w-5 h-5"><path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             Volver
           </button>
         </div>
 
-        {/* Card principal */}
+
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
 
-            {/* Columna Imagen */}
+
             <div>
               <div className="w-full aspect-square rounded-lg overflow-hidden shadow-sm">
                 <img
@@ -88,7 +88,7 @@ export default function ProductDetails() {
                 />
               </div>
 
-              {/* Thumbnails */}
+
               {photos.length > 1 && (
                 <div className="grid grid-cols-4 gap-2 mt-4">
                   {photos.map((src, idx) => (
@@ -105,7 +105,7 @@ export default function ProductDetails() {
               )}
             </div>
 
-            {/* Columna Detalles */}
+
             <div>
               <span className="inline-block text-xs sm:text-sm font-semibold bg-amber-300/60 text-[#2C5234] px-3 py-1 rounded-full">
                 {product.category || "General"}
@@ -134,7 +134,7 @@ export default function ProductDetails() {
                 </div>
               )}
 
-              {/* Vendedor */}
+
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
                 <h3 className="font-semibold text-lg mb-3">Información del vendedor</h3>
                 <div className="flex items-center gap-4">
@@ -147,13 +147,13 @@ export default function ProductDetails() {
                     <p className="font-bold text-[#2C5234]">
                       {product.user?.name || "Usuario desconocido"}
                     </p>
-                    {/* Si tienes fecha de alta, úsala. Por ahora un fallback corto */}
+
                     <p className="text-sm text-gray-500">Miembro verificado</p>
                   </div>
                 </div>
               </div>
 
-              {/* WhatsApp */}
+
               {waHref ? (
                 <a
                   href={waHref}
@@ -178,7 +178,7 @@ export default function ProductDetails() {
           </div>
         </div>
 
-        {/* Productos similares */}
+
         <div className="mt-12">
           <h2 className="text-2xl sm:text-3xl font-bold text-[#2C5234] mb-6">Productos similares</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
