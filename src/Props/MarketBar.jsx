@@ -37,7 +37,9 @@ export default function MarketBar({ onSearch, onSort }) {
         </button>
 
         {isMenuOpen && (
-          <div className="absolute left-1/2 top-full mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200 transform -translate-x-1/2">
+          <div className="">
+            <div id="desktopBurgerMenu" className="hidden md:block
+            absolute left-1/2 top-full mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200 transform -translate-x-1/2 translate-y-1">
             <div className="p-2">
               <button
                 onClick={() => handleSort("lowest")}
@@ -56,7 +58,33 @@ export default function MarketBar({ onSearch, onSort }) {
                 Mayor precio
               </button>
             </div>
+            </div>
+            <div id="mobileBurgerMenu" className="md:hidden absolute left-5/3 top-full mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200 transform -translate-x-1/2 translate-y-3">
+                          <div className="p-2">
+              <button
+                onClick={() => handleSort("lowest")}
+                className={`w-full text-left px-4 py-2 rounded-md ${
+                  sortBy === "lowest" ? "bg-amber-50 text-amber-600" : "hover:bg-gray-100"
+                }`}
+              >
+                Menor precio
+              </button>
+              <button
+                onClick={() => handleSort("highest")}
+                className={`w-full text-left px-4 py-2 rounded-md ${
+                  sortBy === "highest" ? "bg-amber-50 text-amber-600" : "hover:bg-gray-100"
+                }`}
+              >
+                Mayor precio
+              </button>
+            </div>
+            </div>
+
+
+
+            
           </div>
+          
         )}
       </div>
 
