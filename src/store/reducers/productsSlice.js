@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-// Thunk con parámetros de búsqueda y categoría
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async ({ category = '', search = '' } = {}) => {

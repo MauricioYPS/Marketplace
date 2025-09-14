@@ -45,7 +45,7 @@ export default function Body() {
                             <div className="absolute inset-0 bg-black/40"></div>
                             <div className="relative p-8">
                                 <h1 className="text-5xl font-bold mb-4">Bienvenido a tu mercado en Mapiripán</h1>
-                                <p className="text-xl mb-6 max-w-2xl mx-auto">Encuentra productos, servicios, noticias y eventos de nuestra comunidad. ¡Apoya lo nuestro!</p>
+                                <p className="text-xl mb-6 max-w-2xl mx-auto"> ¡Apoya lo nuestro!</p>
                                 <NavLink to="/marketplace" className="flex items-center btn btn-accent text-lg text-center">
                                     Explorar Marketplace
                                 </NavLink>

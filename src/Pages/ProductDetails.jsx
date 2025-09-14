@@ -68,18 +68,18 @@ export default function ProductDetails() {
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-gray-600 hover:text-[#2C5234] font-semibold cursor-pointer hover:underline"
           >
-            <svg viewBox="0 0 24 24" className="w-5 h-5"><path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-xl"><path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             Volver
           </button>
         </div>
 
 
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm">
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 ">
 
 
-            <div>
-              <div className="w-full aspect-square rounded-lg overflow-hidden shadow-sm">
+            <div className="">
+              <div className="w-full aspect-square rounded-lg overflow-hidden shadow-sm ">
                 <img
                   src={photos[activePhoto] || "https://via.placeholder.com/800x800?text=Sin+imagen"}
                   alt={product.name}
@@ -185,7 +185,7 @@ export default function ProductDetails() {
             {related.map((item) => (
               <div
                 key={item._id}
-                className="bg-white rounded-lg overflow-hidden shadow-sm"
+                className="bg-white rounded-lg overflow-hidden hover:border-1"
               onClick={() => handleNavigate(item._id)}>
                 <div className="w-full h-40 overflow-hidden">
                   <img
