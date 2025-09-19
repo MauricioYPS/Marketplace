@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+.carrusel {
+    height: 75vh;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F8F7F2;
+    /* Un blanco hueso cálido */
+}
+
+/* Colores personalizados de Tailwind */
+.bg-primary {
+    background-color: #2C5234;
+}
+
+/* Verde llanero oscuro */
+.bg-secondary {
+    background-color: #F8F7F2;
+}
+
+.bg-accent {
+    background-color: #DAA520;
+}
+
+/* Dorado/Ocre */
+.text-primary {
+    color: #2C5234;
+}
+
+.text-accent {
+    color: #DAA520;
+}
+
+.border-primary {
+    border-color: #2C5234;
+}
+
+.border-accent {
+    border-color: #DAA520;
+}
+
+.hover\:bg-accent-dark:hover {
+    background-color: #c4941c;
+}
+
+.nav-link {
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link.active {
+    background-color: #2C5234;
+    color: white;
+}
+
+.nav-link:not(.active):hover {
+    background-color: #e5e7eb;
+}
+
+.card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: #2C5234;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #224028;
+}
+
+.btn-accent {
+    background-color: #DAA520;
+    color: #2C5234;
+}
+
+.btn-accent:hover {
+    background-color: #c4941c;
+}
+
+.product-card {
+    cursor: pointer;
+}
