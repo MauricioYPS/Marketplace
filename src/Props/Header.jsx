@@ -64,6 +64,25 @@ export default function Header() {
                     >
                         Noticias
                     </NavLink>
+                    <NavLink to="/login" className={({ isActive }) =>
+                        `${linkBase} ${isActive ? linkActive : linkInactive}`
+                    }>
+                        Iniciar Sesión
+                    </NavLink>
+
+                    <NavLink to="/register" className={({ isActive }) =>
+                        `${linkBase} ${isActive ? linkActive : linkInactive}`
+                    }>
+                        Registrarse
+                    </NavLink>
+
+                    <NavLink to="/profileBussines" className={({ isActive }) =>
+                        `${linkBase} ${isActive ? linkActive : linkInactive}`
+                    }>
+                        Mi Perfil
+                    </NavLink>
+
+                    
                 </div>
 
                 {/* PERFIL / USER */}

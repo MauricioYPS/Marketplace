@@ -6,8 +6,9 @@ import NotFound from './Pages/NotFound.jsx'
 import ProductDetails from './Pages/ProductDetails.jsx'
 import News from './Pages/News.jsx'
 import { RouterProvider,createBrowserRouter } from 'react-router-dom'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import ProfileBussiness from './Pages/ProfileBussines.jsx'
+import Login from './SignIn/Login.jsx'
+import Register from './SignIn/Register.jsx'
 
 
 const router = createBrowserRouter([
@@ -19,8 +20,11 @@ const router = createBrowserRouter([
       { path: "/marketplace", element: <Marketplace></Marketplace>},
       { path: "/news", element: <News></News>},
       { path: "/productDetails/:id", element: <ProductDetails></ProductDetails>},
+      { path: "/profileBussines", element: <ProfileBussiness></ProfileBussiness>}
     ],
   },
+  { path: "/login", element: <Login></Login> },
+  { path: "/register", element: <Register></Register> },
   { path: "/*", element: <NotFound></NotFound> },
 ])
 
