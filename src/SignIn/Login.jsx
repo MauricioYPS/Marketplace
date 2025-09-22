@@ -38,7 +38,7 @@ export default function Login() {
         <div className="bg-white rounded-2xl p-8 shadow-2xl">
           <h2 className="text-3xl font-bold text-center text-green-800 mb-6">Iniciar Sesión</h2>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
               <input
