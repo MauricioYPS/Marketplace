@@ -38,6 +38,7 @@ const authReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = null;
       state.user = action.payload.user ?? null;
+      
       state.token = action.payload.token ?? null;
       state.message = null;
       state.registrationSuccess = false;
@@ -109,6 +110,9 @@ const authReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUser, (state, action) => {
       state.user = action.payload.user ?? null;
+      console.log("User",action.payload.user);
+      
+      
       state.token = action.payload.token ?? state.token;
       state.error = null;
       state.message = null;
