@@ -1,26 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { fetchProductsByUser } from '../actions/authActions'
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async ({ category = '', search = '' } = {}) => {
-    const url = `http://localhost:8080/api/products/all?category=${category}&search=${search}`
+    const url = `https://apimarketplace.devmauricioy.com/api/products/all?category=${category}&search=${search}`
     const res = await axios.get(url)
     return res.data.response
   }
 )
 
+const initialState = {
+  products: [],
+  loading: false,
+  error: null,
+  status: 'idle',
+  filters: {
+    category: '',
+    search: '',
+  },
+}
+
 const productsSlice = createSlice({
   name: 'products',
-  initialState: {
-    products: [],
-    loading: false,
-    error: null,
-    filters: {
-      category: '',
-      search: '',
-    },
-  },
+  initialState,
   reducers: {
     setCategory(state, action) {
       state.filters.category = action.payload
@@ -34,14 +38,34 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true
         state.error = null
+        state.status = 'loading'
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false
-        state.products = action.payload
+        state.status = 'succeeded'
+        state.products = action.payload ?? []
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.status = 'failed'
+        state.error = action.error?.message ?? 'Error al obtener los productos'
+      })
+      .addCase(fetchProductsByUser.pending, (state) => {
+        state.loading = true
+        state.error = null
+        state.status = 'loading'
+      })
+      .addCase(fetchProductsByUser.fulfilled, (state, action) => {
+        state.loading = false
+        state.status = 'succeeded'
+        state.products = action.payload ?? []
+      })
+      .addCase(fetchProductsByUser.rejected, (state, action) => {
+        state.loading = false
+        state.status = 'failed'
+        const payloadMessage =
+          typeof action.payload === 'object' ? action.payload?.message : action.payload
+        state.error = payloadMessage ?? action.error?.message ?? 'Error al obtener los productos'
       })
   },
 })

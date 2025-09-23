@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signOut } from "../store/actions/authActions";
+import { signOut, fetchProductsByUser } from "../store/actions/authActions";
 
 const CameraIcon = () => (
   <svg
@@ -76,69 +76,97 @@ const ShoppingBagIcon = () => (
   </svg>
 );
 
-const mockUserProducts = [
-  {
-    id: 1,
-    name: "Queso Siete Cueros",
-    price: 12000,
-    image: "Queso Llanero",
-    status: "Activo",
-  },
-  {
-    id: 3,
-    name: "Chinchorro de Moriche",
-    price: 150000,
-    image: "Artesania",
-    status: "Activo",
-  },
-  {
-    id: 8,
-    name: "Pan de Arroz",
-    price: 5000,
-    image: "Pan de Arroz",
-    status: "Vendido",
-  },
-];
 
-const UserProductCard = ({ product }) => (
-  <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-    <div className="relative">
-      <img
-        src={`https://placehold.co/400x300/F5F5DC/333333?text=${product.image}`}
-        alt={product.name}
-        className="w-full h-40 object-cover"
-      />
-      <span
-        className={`absolute top-2 right-2 text-xs font-semibold px-2 py-1 rounded-full text-white ${
-          product.status === "Activo" ? "bg-green-600" : "bg-gray-500"
-        }`}
-      >
-        {product.status}
-      </span>
+
+const UserProductCard = ({ product }) => {
+
+  const title = product.name ?? product.title ?? 'Producto';
+  const imageSrc =
+    product.imageUrl ??
+    product.photoUrl ??
+    (Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : undefined) ??
+    `https://placehold.co/400x300/F5F5DC/333333?text=${encodeURIComponent(title)}`;
+  const statusLabel =
+    product.status ?? (product.available === false ? 'Inactivo' : 'Activo');
+  const priceLabel =
+    typeof product.price === 'number'
+      ? product.price.toLocaleString('es-CO')
+      : product.price ?? 'N/D';
+
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+      <div className="relative">
+        <img
+          src={imageSrc}
+          alt={title}
+          className="w-full h-40 object-cover"
+        />
+        <span
+          className={`absolute top-2 right-2 text-xs font-semibold px-2 py-1 rounded-full text-white ${statusLabel === 'Activo' ? 'bg-green-600' : 'bg-gray-500'
+            }`}
+        >
+          {statusLabel}
+        </span>
+      </div>
+      <div className="p-4 flex flex-col flex-grow">
+        <h3 className="font-semibold text-lg text-gray-800 flex-grow">
+          {title}
+        </h3>
+        <p className="text-primary font-bold text-xl">
+          {priceLabel !== 'N/D' ? `$${priceLabel} COP` : 'Precio no disponible'}
+        </p>
+      </div>
+      <div className="border-t p-3 bg-gray-50 flex justify-end gap-2">
+        <button className="text-sm font-medium text-blue-600 hover:text-blue-800">
+          Editar
+        </button>
+        <button className="text-sm font-medium text-red-600 hover:text-red-800">
+          Eliminar
+        </button>
+      </div>
     </div>
-    <div className="p-4 flex flex-col flex-grow">
-      <h3 className="font-semibold text-lg text-gray-800 flex-grow">
-        {product.name}
-      </h3>
-      <p className="text-primary font-bold text-xl">
-        ${product.price.toLocaleString("es-CO")} COP
-      </p>
-    </div>
-    <div className="border-t p-3 bg-gray-50 flex justify-end gap-2">
-      <button className="text-sm font-medium text-blue-600 hover:text-blue-800">
-        Editar
-      </button>
-      <button className="text-sm font-medium text-red-600 hover:text-red-800">
-        Eliminar
-      </button>
-    </div>
-  </div>
-);
+  );
+};
 
 export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, loading } = useSelector((state) => state.auth);
+  const { user, loading: authLoading } = useSelector((state) => state.auth);
+  const userId = user?._id;
+  const { products: userProducts, loading: productsLoading, error: productsError } = useSelector((state) => state.products);
+
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchProductsByUser());
+    }
+  }, [dispatch, userId]);
+
+  const normalizedProductsError =
+    typeof productsError === "string" ? productsError : productsError?.message;
+
+  let productsContent;
+
+  if (productsLoading) {
+    productsContent = (
+      <p className="col-span-full text-sm text-gray-500">Cargando tus productos...</p>
+    );
+  } else if (normalizedProductsError) {
+    productsContent = (
+      <p className="col-span-full text-sm text-red-500">{normalizedProductsError}</p>
+    );
+  } else if (!userProducts || userProducts.length === 0) {
+    productsContent = (
+      <p className="col-span-full text-sm text-gray-500">Aun no tienes productos publicados.</p>
+    );
+  } else {
+    productsContent = userProducts.map((product) => (
+      <UserProductCard
+        key={product._id ?? product.id}
+        product={product}
+      />
+    ));
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -163,6 +191,7 @@ export default function Profile() {
     ? `${user?.name ?? ""} ${user?.lastName ?? ""}`.trim()
     : "Usuario";
 
+    
   return (
     <section id="profile" className="container mx-auto py-12 px-4 sm:px-6">
       <div className="w-full flex items-center mb-2">
@@ -195,10 +224,10 @@ export default function Profile() {
             <div className="border-t my-6" />
             <button
               onClick={handleLogout}
-              disabled={loading}
+              disabled={authLoading}
               className="w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Cerrando..." : "Cerrar sesion"}
+              {authLoading ? "Cerrando..." : "Cerrar sesion"}
             </button>
           </div>
         </div>
@@ -300,9 +329,7 @@ export default function Profile() {
           <h3 className="text-2xl font-bold text-green-900">Mis productos</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {mockUserProducts.map((product) => (
-            <UserProductCard key={product.id} product={product} />
-          ))}
+          {productsContent}
         </div>
       </div>
     </section>
