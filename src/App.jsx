@@ -8,6 +8,7 @@ import ProductDetails from "./Pages/ProductDetails.jsx";
 import Profile from "./Pages/Profile.jsx";
 import Register from "./Pages/Register.jsx";
 import SignIn from "./Pages/SignIn.jsx";
+<<<<<<< HEAD
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Los imports de axios y useDispatch no son necesarios aquí, se deben usar en los componentes que los requieran (ej. en el slice de Redux)
@@ -15,6 +16,47 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
     element: <StandarLayout />, // El layout envuelve a todas las páginas que están dentro de 'children'
+=======
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { logout, setUser } from "./store/actions/authActions";
+
+const API_URL = "https://apimarketplace.devmauricioy.com/api";
+
+
+const extractUser = (rawUser) => {
+  if (!rawUser) return null;
+  if (Array.isArray(rawUser)) {
+    return extractUser(rawUser[0]);
+  }
+  if (rawUser.response !== undefined) {
+    return extractUser(rawUser.response);
+  }
+  if (rawUser.user !== undefined) {
+    return extractUser(rawUser.user);
+  }
+  if (rawUser.data !== undefined) {
+    return extractUser(rawUser.data);
+  }
+  return rawUser;
+};
+
+const normalizeUser = (user) => {
+  const extracted = extractUser(user);
+  if (!extracted) return null;
+  const normalized = { ...extracted };
+  if (!normalized._id && normalized.id) {
+    normalized._id = normalized.id;
+  }
+  return normalized;
+};
+
+const router = createBrowserRouter([
+  {
+    element: <StandarLayout />,
+>>>>>>> main
     children: [
       { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
@@ -26,6 +68,7 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
     ],
   },
+<<<<<<< HEAD
   { path: "/*", element: <NotFound /> }, // Ruta para páginas no encontradas
 ]);
 
@@ -35,6 +78,59 @@ function App() {
       <RouterProvider router={router} />
     </>
   );
+=======
+  { path: "/*", element: <NotFound /> },
+]);
+
+function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      dispatch(logout());
+      return;
+    }
+
+    const validateToken = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/users/validationToken`,
+          null,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = response.data ?? {};
+        const user = normalizeUser(
+          data.user ?? data.profile ?? data.response ?? data?.data ?? data ?? null
+        );
+
+        dispatch(setUser({ user, token }));
+        
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        
+      } catch (error) {
+        const status = error.response?.status;
+        console.log("status", status);
+        
+        if (status === 401 || status === 403) {
+          dispatch(logout());
+        } else {
+          console.error("Token validation failed", error);
+        }
+      }
+    };
+
+    validateToken();
+  }, [dispatch]);
+
+  return <RouterProvider router={router}></RouterProvider>;
+>>>>>>> main
 }
 
 export default App;
