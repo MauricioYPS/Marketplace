@@ -8,15 +8,6 @@ import ProductDetails from "./Pages/ProductDetails.jsx";
 import Profile from "./Pages/Profile.jsx";
 import Register from "./Pages/Register.jsx";
 import SignIn from "./Pages/SignIn.jsx";
-<<<<<<< HEAD
-
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// Los imports de axios y useDispatch no son necesarios aquí, se deben usar en los componentes que los requieran (ej. en el slice de Redux)
-
-const router = createBrowserRouter([
-  {
-    element: <StandarLayout />, // El layout envuelve a todas las páginas que están dentro de 'children'
-=======
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -56,7 +47,6 @@ const normalizeUser = (user) => {
 const router = createBrowserRouter([
   {
     element: <StandarLayout />,
->>>>>>> main
     children: [
       { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
@@ -68,17 +58,6 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
     ],
   },
-<<<<<<< HEAD
-  { path: "/*", element: <NotFound /> }, // Ruta para páginas no encontradas
-]);
-
-function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
-=======
   { path: "/*", element: <NotFound /> },
 ]);
 
@@ -130,7 +109,6 @@ function App() {
   }, [dispatch]);
 
   return <RouterProvider router={router}></RouterProvider>;
->>>>>>> main
 }
 
 export default App;

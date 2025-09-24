@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import React from "react";
-import { NavLink, useOutletContext } from "react-router-dom";
-
-// --- Íconos para la UI ---
-=======
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, clearAuthFeedback } from "../store/actions/authActions";
 
->>>>>>> main
 const LogoIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -28,10 +21,6 @@ const LogoIcon = () => (
     <path d="M16 10a4 4 0 0 1-8 0" />
   </svg>
 );
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 const MailIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -49,10 +38,6 @@ const MailIcon = () => (
     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
   </svg>
 );
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 const LockIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -72,20 +57,6 @@ const LockIcon = () => (
 );
 
 export default function SignIn() {
-<<<<<<< HEAD
-  // Recibimos la función handleLogin desde el StandarLayout
-  const { handleLogin } = useOutletContext();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Al enviar el formulario, llamamos a la función del layout
-    handleLogin();
-  };
-
-  return (
-    // 👇 CAMBIO PRINCIPAL AQUÍ 👇
-    // Se quita 'min-h-screen' y el fondo, y se añade padding vertical (py-16)
-=======
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, message, token } = useSelector((state) => state.auth);
@@ -118,7 +89,6 @@ export default function SignIn() {
   };
 
   return (
->>>>>>> main
     <section className="container mx-auto py-16 px-4">
       <div className="relative w-full max-w-md mx-auto">
         <div className="bg-white p-8 rounded-2xl shadow-xl border">
@@ -143,28 +113,19 @@ export default function SignIn() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-<<<<<<< HEAD
-                Correo Electrónico
-=======
                 Correo Electronico
->>>>>>> main
               </label>
               <div className="relative mt-1">
                 <MailIcon />
                 <input
                   type="email"
                   id="email"
-<<<<<<< HEAD
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                  placeholder="tu@correo.com"
-=======
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   placeholder="tu@correo.com"
                   autoComplete="email"
->>>>>>> main
                   required
                 />
               </div>
@@ -175,40 +136,24 @@ export default function SignIn() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-<<<<<<< HEAD
-                Contraseña
-=======
                 Contrasena
->>>>>>> main
               </label>
               <div className="relative mt-1">
                 <LockIcon />
                 <input
                   type="password"
                   id="password"
-<<<<<<< HEAD
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                  placeholder="••••••••"
-=======
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   placeholder="********"
                   autoComplete="current-password"
->>>>>>> main
                   required
                 />
               </div>
             </div>
 
-<<<<<<< HEAD
-            <button
-              type="submit"
-              className="w-full bg-accent text-primary font-bold text-lg py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors"
-            >
-              Ingresar
-=======
             {error && (
               <p className="text-sm text-red-500 text-center">{error}</p>
             )}
@@ -223,25 +168,16 @@ export default function SignIn() {
               className="w-full bg-accent text-primary font-bold text-lg py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? "Ingresando..." : "Ingresar"}
->>>>>>> main
             </button>
           </form>
 
           <p className="text-center text-sm text-gray-600 mt-6">
-<<<<<<< HEAD
-            ¿No tienes una cuenta?{" "}
-=======
             No tienes una cuenta?{" "}
->>>>>>> main
             <NavLink
               to="/register"
               className="font-semibold text-primary hover:text-accent"
             >
-<<<<<<< HEAD
-              Regístrate aquí
-=======
               Registrate aqui
->>>>>>> main
             </NavLink>
           </p>
         </div>
@@ -249,7 +185,3 @@ export default function SignIn() {
     </section>
   );
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> main
