@@ -21,7 +21,6 @@ const LogoIcon = () => (
     <path d="M16 10a4 4 0 0 1-8 0" />
   </svg>
 );
-
 const UserIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +38,6 @@ const UserIcon = () => (
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
-
 const MailIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +55,6 @@ const MailIcon = () => (
     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
   </svg>
 );
-
 const LockIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
