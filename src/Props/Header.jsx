@@ -1,11 +1,29 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../store/actions/authActions";
 
-// 1. El componente ahora recibe la prop { isLoggedIn }
-export default function Header({ isLoggedIn }) {
-  const linkBase =
-    "nav-link px-4 py-2 rounded-full font-medium transition-colors";
-  const linkActive = "bg-primary text-white";
-  const linkInactive = "hover:bg-gray-200 text-gray-800";
+const linkBase = "nav-link px-4 py-2 rounded-full font-medium transition-colors";
+const linkActive = "bg-primary text-white";
+const linkInactive = "hover:bg-gray-200 text-gray-800";
+
+export default function Header({ isLoggedIn: isLoggedInProp }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { token, loading } = useSelector((state) => state.auth);
+
+  const derivedIsLoggedIn = Boolean(token);
+  const isSigningOut = loading && Boolean(token);
+  const isLoggedIn = typeof isLoggedInProp === "boolean" ? isLoggedInProp : derivedIsLoggedIn;
+
+  const handleSignOut = async () => {
+    try {
+      await dispatch(signOut()).unwrap();
+    } catch (error) {
+      // El error ya se maneja en el estado global
+    } finally {
+      navigate("/login");
+    }
+  };
 
   return (
     <header className="bg-[#F8F7F2] sticky top-0 z-50 shadow-sm text-gray-800">
