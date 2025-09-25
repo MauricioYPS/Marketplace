@@ -135,6 +135,8 @@ export default function Profile() {
   const userId = user?._id;
   const { products: userProducts, loading: productsLoading, error: productsError } = useSelector((state) => state.products);
 
+  
+
 
   useEffect(() => {
     if (userId) {
@@ -269,6 +271,7 @@ export default function Profile() {
                   <input
                     type="email"
                     id="email"
+                    disabled
                     defaultValue={user?.email ?? ""}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                     placeholder="tu@correo.com"
@@ -298,6 +301,7 @@ export default function Profile() {
                 <input
                   type="tel"
                   id="telefono"
+                  defaultValue={user?.phone ?? ""}
                   className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   placeholder="Ingresa tu numero"
                 />
