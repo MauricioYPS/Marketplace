@@ -2,6 +2,43 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/reducers/productsSlice";
+import { resolveManyS3Urls } from "../utils/s3Urls";
+import { useS3Image } from "../hooks/useS3Image";
+
+
+const RelatedProductCard = ({ item, onNavigate }) => {
+  const rawSource =
+    item.photoUrl ??
+    (Array.isArray(item.photos) && item.photos.length > 0 ? item.photos[0] : null);
+  const { url } = useS3Image(rawSource);
+  const placeholder = `https://placehold.co/300x200/F5F5DC/333333?text=${encodeURIComponent(
+    item.name ?? 'Producto'
+  )}`;
+
+  return (
+    <button
+      type="button"
+      onClick={() => onNavigate(item._id)}
+      className="bg-white rounded-lg overflow-hidden hover:border-1 text-left"
+    >
+      <div className="w-full h-40 overflow-hidden">
+        <img
+          src={url ?? placeholder}
+          alt={item.name}
+          className="w-full h-full object-cover object-center"
+          loading="lazy"
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="font-semibold text-base sm:text-lg line-clamp-2">{item.name}</h3>
+        <p className="text-[#2C5234] font-bold text-lg sm:text-xl mt-1">
+          ${item.price.toLocaleString('es-CO')} COP
+        </p>
+        {item.unit && <p className="text-gray-500 text-sm">{item.unit}</p>}
+      </div>
+    </button>
+  );
+};
 
 export default function ProductDetails() {
   const { id: productSelected } = useParams();
@@ -29,18 +66,54 @@ export default function ProductDetails() {
     [products, product?.category, productSelected]
   );
 
-  // Galería: usa photoUrl + (opcional) product.photos (array)
-  const photos = useMemo(() => {
-    const arr = [];
-    if (product?.photoUrl) arr.push(product.photoUrl);
+  const rawPhotoSources = useMemo(() => {
+    const values = [];
+    if (product?.photoUrl) values.push(product.photoUrl);
     if (Array.isArray(product?.photos)) {
-      for (const url of product.photos) if (url && !arr.includes(url)) arr.push(url);
+      for (const entry of product.photos) if (entry && !values.includes(entry)) values.push(entry);
     }
-    return arr;
+    return values;
   }, [product]);
 
+  const [photoUrls, setPhotoUrls] = useState([]);
+  const [photosLoading, setPhotosLoading] = useState(false);
+  const [photosError, setPhotosError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!rawPhotoSources.length) {
+      setPhotoUrls([]);
+      setPhotosError(null);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setPhotosLoading(true);
+    setPhotosError(null);
+    resolveManyS3Urls(rawPhotoSources)
+      .then((results) => {
+        if (cancelled) return;
+        const filtered = results.filter(Boolean);
+        setPhotoUrls(filtered);
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        console.error(error);
+        setPhotosError(error instanceof Error ? error.message : String(error));
+        setPhotoUrls([]);
+      })
+      .finally(() => {
+        if (!cancelled) setPhotosLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [rawPhotoSources]);
+
   const [activePhoto, setActivePhoto] = useState(0);
-  useEffect(() => setActivePhoto(0), [productSelected]);
+  useEffect(() => setActivePhoto(0), [productSelected, photoUrls.length]);
 
   function handleNavigate(id){
     navigate(`/productDetails/${id}`);
@@ -81,17 +154,23 @@ export default function ProductDetails() {
             <div className="">
               <div className="w-full aspect-square rounded-lg overflow-hidden shadow-sm ">
                 <img
-                  src={photos[activePhoto] || "https://via.placeholder.com/800x800?text=Sin+imagen"}
+                  src={photoUrls[activePhoto] || "https://via.placeholder.com/800x800?text=Sin+imagen"}
                   alt={product.name}
                   className="w-full h-full object-cover object-center"
                   loading="lazy"
                 />
               </div>
+              {photosLoading && (
+                <p className="mt-2 text-sm text-gray-500">Cargando imagenes...</p>
+              )}
+              {photosError && (
+                <p className="mt-2 text-sm text-red-500">No se pudieron cargar las imagenes.</p>
+              )}
 
 
-              {photos.length > 1 && (
+              {photoUrls.length > 1 && (
                 <div className="grid grid-cols-4 gap-2 mt-4">
-                  {photos.map((src, idx) => (
+                  {photoUrls.map((src, idx) => (
                     <button
                       key={src + idx}
                       onClick={() => setActivePhoto(idx)}
@@ -183,26 +262,7 @@ export default function ProductDetails() {
           <h2 className="text-2xl sm:text-3xl font-bold text-[#2C5234] mb-6">Productos similares</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
             {related.map((item) => (
-              <div
-                key={item._id}
-                className="bg-white rounded-lg overflow-hidden hover:border-1"
-              onClick={() => handleNavigate(item._id)}>
-                <div className="w-full h-40 overflow-hidden">
-                  <img
-                    src={item.photoUrl}
-                    alt={item.name}
-                    className="w-full h-full object-cover object-center"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-base sm:text-lg line-clamp-2">{item.name}</h3>
-                  <p className="text-[#2C5234] font-bold text-lg sm:text-xl mt-1">
-                    ${item.price.toLocaleString("es-CO")} COP
-                  </p>
-                  {item.unit && <p className="text-gray-500 text-sm">{item.unit}</p>}
-                </div>
-              </div>
+              <RelatedProductCard key={item._id} item={item} onNavigate={handleNavigate} />
             ))}
           </div>
         </div>
