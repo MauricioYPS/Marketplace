@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 // --- Se mantienen los imports de Redux para conectar con tu backend ---
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/reducers/productsSlice";
+import { useS3Image } from "../hooks/useS3Image";
 
 // --- Íconos para la UI ---
 const MegaphoneIcon = () => (
@@ -165,14 +166,17 @@ const announcements = [
 // --- Componente de Tarjeta de Producto ---
 const ProductCard = ({ product }) => {
   // --- LÓGICA MEJORADA PARA ENCONTRAR LA IMAGEN ---
-  const imageSrc =
-    product.imageUrl ??
+  const rawSource =
     product.photoUrl ??
+    product.imageUrl ??
     (Array.isArray(product.images) && product.images.length > 0
       ? product.images[0]
-      : `https://placehold.co/400x500/F5F5DC/333333?text=${encodeURIComponent(
-          product.name
-        )}`);
+      : null);
+  const { url } = useS3Image(rawSource);
+  const fallback = `https://placehold.co/400x500/F5F5DC/333333?text=${encodeURIComponent(
+    product.name ?? 'Producto'
+  )}`;
+  const imageSrc = url ?? fallback;
 
   return (
     <Link

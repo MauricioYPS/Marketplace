@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { logout, setUser } from "./store/actions/authActions";
+import UploaderBussines from "./Pages/UploaderBussines.jsx";
 
 const API_URL = "https://apimarketplace.devmauricioy.com/api";
 
@@ -56,6 +57,7 @@ const router = createBrowserRouter([
       { path: "/productDetails/:id", element: <ProductDetails /> },
       { path: "/login", element: <SignIn /> },
       { path: "/register", element: <Register /> },
+      {path: "/upBussines", element: <UploaderBussines /> },
     ],
   },
   { path: "/*", element: <NotFound /> },

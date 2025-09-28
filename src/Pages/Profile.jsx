@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signOut, fetchProductsByUser } from "../store/actions/authActions";
+import { useS3Image } from "../hooks/useS3Image";
 
 // --- Íconos Mejorados para la UI ---
 const CameraIcon = () => (
@@ -132,14 +133,17 @@ const SpinnerIcon = () => (
 // --- Componente de Tarjeta de Producto (Diseño Mejorado) ---
 const UserProductCard = ({ product }) => {
   const title = product.name ?? product.title ?? "Producto";
-  const imageSrc =
-    product.imageUrl ??
+  const rawSource =
     product.photoUrl ??
+    product.imageUrl ??
     (Array.isArray(product.images) && product.images.length > 0
       ? product.images[0]
-      : `https://placehold.co/400x300/F5F5DC/333333?text=${encodeURIComponent(
-          title
-        )}`);
+      : null);
+  const { url } = useS3Image(rawSource);
+  const fallback = `https://placehold.co/400x300/F5F5DC/333333?text=${encodeURIComponent(
+    title
+  )}`;
+  const imageSrc = url ?? fallback;
   const statusLabel =
     product.status ?? (product.available === false ? "Inactivo" : "Activo");
   const priceLabel =
@@ -213,11 +217,10 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useSelector((state) => state.auth);
   const userId = user?._id;
-  const {
-    products: userProducts,
-    loading: productsLoading,
-    error: productsError,
-  } = useSelector((state) => state.products);
+  const { products: userProducts, loading: productsLoading, error: productsError } = useSelector((state) => state.products);
+
+  
+
 
   useEffect(() => {
     if (userId) {
